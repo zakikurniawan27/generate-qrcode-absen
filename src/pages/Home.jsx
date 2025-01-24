@@ -18,15 +18,22 @@ const Home = () => {
     ("0" + date.getDate()).slice(-2);
 
   const generateQrCodeMasuk = () => {
-    setStatus({ ...status, masuk: true });
+    setStatus({ ...status, masuk: true, pulang: false });
     setUrl(todayFormatted + "qrcodeabsenmasuk");
+    setTimeout(() => {
+      setUrl();
+    }, 15000);
     // console.log(todayFormatted + "qrcodeabsenmasuk");
   };
   const generateQrCodePulang = () => {
-    setStatus({ ...status, pulang: true });
+    setStatus({ ...status, masuk: false, pulang: true });
     setUrl(todayFormatted + "qrcodeabsenpulang");
+    setTimeout(() => {
+      setUrl();
+    }, 15000);
     // console.log(todayFormatted + "qrcodeabsenpulang");
   };
+
   return (
     <section className="container">
       <div className="d-flex vh-100 p-2 justify-content-center align-items-center">
@@ -51,9 +58,9 @@ const Home = () => {
           </div>
         ) : url ? (
           <>
-            {status.masuk == true ? (
+            {status.masuk === true ? (
               <QrcodeComponent url={url} title={"ABSEN MASUK"} />
-            ) : status.pulang == true ? (
+            ) : status.pulang === true ? (
               <QrcodeComponent url={url} title={"ABSEN PULANG"} />
             ) : (
               <></>
