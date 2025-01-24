@@ -1,9 +1,13 @@
 import { useState } from "react";
-import QRCode from "react-qr-code";
 import Button from "../components/Button";
+import QrcodeComponent from "../components/QrcodeComponent";
 
 const Home = () => {
   const [url, setUrl] = useState();
+  const [status, setStatus] = useState({
+    masuk: false,
+    pulang: false,
+  });
 
   const date = new Date();
   const todayFormatted =
@@ -14,10 +18,12 @@ const Home = () => {
     ("0" + date.getDate()).slice(-2);
 
   const generateQrCodeMasuk = () => {
+    setStatus({ ...status, masuk: true });
     setUrl(todayFormatted + "qrcodeabsenmasuk");
     // console.log(todayFormatted + "qrcodeabsenmasuk");
   };
   const generateQrCodePulang = () => {
+    setStatus({ ...status, pulang: true });
     setUrl(todayFormatted + "qrcodeabsenpulang");
     // console.log(todayFormatted + "qrcodeabsenpulang");
   };
@@ -44,7 +50,15 @@ const Home = () => {
             </div>
           </div>
         ) : url ? (
-          <QRCode size={400} bgColor="white" fgColor="black" value={url} />
+          <>
+            {status.masuk == true ? (
+              <QrcodeComponent url={url} title={"ABSEN MASUK"} />
+            ) : status.pulang == true ? (
+              <QrcodeComponent url={url} title={"ABSEN PULANG"} />
+            ) : (
+              <></>
+            )}
+          </>
         ) : (
           <></>
         )}
