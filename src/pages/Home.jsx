@@ -13,10 +13,11 @@ const Home = () => {
   const todayFormatted =
     date.getFullYear() +
     "-" +
-    ("0" + date.getMonth() + 1).slice(-2) +
+    String(date.getMonth() + 1).padStart(2, "0") +
     "-" +
-    ("0" + date.getDate()).slice(-2);
+    String(date.getDate()).padStart(2, "0");
 
+  // console.log(todayFormatted);
   const generateQrCodeMasuk = () => {
     setStatus({ ...status, masuk: true, pulang: false });
     setUrl(todayFormatted + "qrcodeabsenmasuk");
